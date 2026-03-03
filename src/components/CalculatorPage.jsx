@@ -6,8 +6,6 @@ import SidebarInputs from './SidebarInputs';
 import ResultsDashboard from './ResultsDashboard';
 import { generateProjection, calculateStaircasingOptions } from '../utils/finance';
 import { fetchLatestCpi, fetchLatestBoEBaseRate } from '../utils/rates';
-import { pdf } from '@react-pdf/renderer';
-import PDFReport from './PDFReport';
 
 
 function CalculatorPage() {
@@ -96,7 +94,7 @@ function CalculatorPage() {
         {/* Header */}
         <header className="glass-panel fade-in" style={{ padding: '24px', flexShrink: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', color: 'inherit' }}>
-            <img src="/logo_dark.webp" alt="BuyBack HTB Logo" width="112" height="36" style={{ height: '36px', borderRadius: '6px' }} />
+            <img src="/logo_dark.webp" alt="BuyBack HTB Logo" width="36" height="36" style={{ height: '36px', width: '36px', borderRadius: '6px', objectFit: 'contain' }} />
             <div>
               <h1 className="text-gradient" style={{ fontSize: '1.5rem', fontWeight: 800, margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
                 BuyBack HTB
@@ -124,6 +122,10 @@ function CalculatorPage() {
                     hour: '2-digit',
                     minute: '2-digit'
                   });
+
+                  // Dynamically import heavy PDF generation libraries
+                  const { pdf } = await import('@react-pdf/renderer');
+                  const { default: PDFReport } = await import('./PDFReport');
 
                   const doc = (
                     <PDFReport
@@ -167,7 +169,7 @@ function CalculatorPage() {
                 fontSize: '14px',
                 fontWeight: 600,
                 cursor: isGenerating ? 'wait' : 'pointer',
-                transition: 'all 0.2s ease',
+                transition: 'background-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease',
                 backdropFilter: 'blur(8px)',
                 opacity: isGenerating ? 0.7 : 1,
               }}
@@ -189,7 +191,7 @@ function CalculatorPage() {
               ) : (
                 <FileDown size={16} />
               )}
-              {isGenerating ? 'Generating...' : 'Export PDF'}
+              {isGenerating ? 'Generating…' : 'Export PDF'}
             </button>
 
             {/* Ko-fi */}

@@ -134,7 +134,7 @@
     z-index: 1000;
     display: flex;
     justify-content: center;
-    transition: all 0.3s var(--motion-ease-out);
+    transition: padding 0.3s var(--motion-ease-out), background-color 0.3s var(--motion-ease-out), box-shadow 0.3s var(--motion-ease-out), backdrop-filter 0.3s var(--motion-ease-out);
 }
 
 .main-header.scrolled {

@@ -116,11 +116,12 @@ input[type="text"] {
   font-family: 'Inter', sans-serif;
   width: 100%;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  outline: none;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
 }
 
-input[type="number"]:focus,
-input[type="text"]:focus {
+input[type="number"]:focus-visible,
+input[type="text"]:focus-visible {
   border-color: var(--accent-primary);
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
@@ -339,7 +340,7 @@ input[type="text"]:focus {
   border-radius: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
   text-decoration: none;
   gap: 8px;
 }

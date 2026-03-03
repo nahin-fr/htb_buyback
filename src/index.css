@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-color: #0f172a; /* Deep slate */
+  --bg-color: #0f172a;
+  /* Deep slate */
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --glass-bg: rgba(30, 41, 59, 0.7);
@@ -27,7 +28,7 @@ body {
   min-height: 100vh;
   /* subtle radial glow effect */
   background-image: radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
-                    radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15), transparent 25%);
+    radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15), transparent 25%);
   background-attachment: fixed;
   overflow-x: hidden;
 }
@@ -46,19 +47,25 @@ body {
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--bg-color);
 }
+
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
 }
 
 /* Typography elements */
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-weight: 600;
   letter-spacing: -0.02em;
 }
@@ -97,12 +104,13 @@ input[type="range"]::-webkit-slider-runnable-track {
   width: 100%;
   height: 4px;
   cursor: pointer;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 2px;
 }
 
-input[type="number"], input[type="text"] {
-  background: rgba(0,0,0,0.2);
+input[type="number"],
+input[type="text"] {
+  background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--glass-border);
   color: var(--text-main);
   padding: 8px 12px;
@@ -113,7 +121,8 @@ input[type="number"], input[type="text"] {
   outline: none;
 }
 
-input[type="number"]:focus, input[type="text"]:focus {
+input[type="number"]:focus,
+input[type="text"]:focus {
   border-color: var(--accent-primary);
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
@@ -124,6 +133,23 @@ input[type="number"]:focus, input[type="text"]:focus {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }

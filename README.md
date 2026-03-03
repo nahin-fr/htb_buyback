@@ -1,39 +1,43 @@
-# Mortgage & HTB Forecaster
+# BuyBack HTB
 
-An interactive React-based projection tool designed to analyze the long-term financial implications of a traditional mortgage combined with a UK Help to Buy (HTB) Equity Loan.
+An interactive React-based projection tool for analysing the long-term financial implications of a UK mortgage combined with a Help to Buy (HTB) Equity Loan.
 
 ## Overview
-This application helps homeowners with a Help to Buy equity loan visualize their wealth accumulation, monthly outgoings, and decide when is the optimal time to staircase (buy back the government's share). 
 
-It simulates up to 33 years into the future, dynamically responding to inputs like property growth, remortgage rates, and HTB interest escalation.
+Helps homeowners with a Help to Buy equity loan decide when — or whether — to buy out the government's share (staircase). Simulates up to 40 years into the future, updating in real time as you adjust inputs. Auto-fetches the latest CPI and Bank of England base rate on load to pre-populate key assumptions.
 
 ## Key Features
-- **Asset Wealth Projection:** Visualizes property value growth versus the shrinking mortgage and growing HTB debt over 33 years.
-- **Monthly Outgoings:** A detailed 5-year breakdown of monthly costs, showing the exact point remortgage rates or HTB interest fees kick in.
-- **HTB Staircasing Decision Engine:**
-  - Calculates the net savings or loss of staircasing at any point in the future.
-  - Determines the "Rate Crossover" point—the exact year when keeping the HTB loan becomes mathematically more expensive than borrowing from the bank to clear it.
-  - Projects the required household income needed to afford the larger remortgage at each future staircasing point.
+
+- **Home & Debt Forecast** — Property value growth vs. mortgage balance and HTB Equity Loan over the full term.
+- **Monthly Payments** — 5-year breakdown of outgoings showing the exact point where the remortgage rate or HTB interest escalation kicks in.
+- **Buy Out HTB Equity Loan** — The core decision engine:
+  - Calculates net savings or cost of buying out at any year, compared to never buying out.
+  - Interactive bar chart — click any year to see a full breakdown in the Key Insight panel.
+  - Determines the **Breaking Point** — the year when keeping the HTB Equity Loan becomes more expensive than a bank mortgage.
+  - Projects the minimum household income needed to qualify for the larger mortgage at each future buyout date.
+- **Assumptions tab** — Documents all calculation assumptions for transparency.
 
 ## Tech Stack
-- React (Vite)
-- Tailwind CSS (via inline utilities and customized variables)
+
+- React 19 + Vite
 - Chart.js (react-chartjs-2)
-- Recharts (for outgoings)
-- Lucide React (Icons)
+- Lucide React (icons)
+- CSS custom properties + inline styles (dark theme)
 
 ## Getting Started
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-2. Start the development server:
-   ```bash
-   npm run dev
-   ```
-3. Open `http://localhost:5173` in your browser.
+```bash
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173`.
 
 ## Documentation
-- `implementation.md`: Technical breakdown of the mathematical engine and simulation loops.
-- `AGENTS.md`: Guidelines and logic structures for AI assistants interacting with this codebase.
+
+- `implementation.md` — Mathematical engine, simulation functions, and key domain rules.
+- `AGENTS.md` — Guidelines for AI assistants working in this codebase.
+
+## Disclaimer
+
+For illustrative purposes only. Does not constitute financial advice. Always consult a qualified financial adviser before making decisions about your mortgage or Help to Buy equity loan.

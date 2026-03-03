@@ -1,38 +1,54 @@
 import React from 'react';
 import { Settings, Home, Percent, PoundSterling, Calendar } from 'lucide-react';
 
-const InputGroup = ({ icon: Icon, label, name, value, min, max, step, suffix, isPercent, onChange }) => (
-    <div style={{ marginBottom: '20px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', fontWeight: 500 }}>
-                <Icon size={16} className="text-gradient" /> {label}
+const InputGroup = ({ icon, label, name, value, min, max, step, suffix, isPercent, integer, onChange }) => {
+    const IconComponent = icon;
+    // For percent fields: display in % (e.g. 4.79), store as decimal (0.0479)
+    // For integer fields: round to whole number for display and storage
+    const toDisplay = v => {
+        if (isPercent) return parseFloat((parseFloat(v) * 100).toFixed(4));
+        if (integer) return Math.round(parseFloat(v));
+        return parseFloat(v);
+    };
+    const displayVal = toDisplay(value);
+    const displayMin = toDisplay(min);
+    const displayMax = toDisplay(max);
+    const displayStep = toDisplay(step);
+
+    const handleChange = (e) => {
+        const raw = parseFloat(e.target.value);
+        const stored = isPercent ? parseFloat((raw / 100).toFixed(6)) : integer ? Math.round(raw) : raw;
+        onChange({ target: { name: e.target.name, value: isNaN(stored) ? 0 : stored } });
+    };
+
+    return (
+        <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                <IconComponent size={16} className="text-gradient" /> {label}
             </label>
-            <span style={{ fontSize: '14px', color: 'var(--text-muted)' }}>
-                {isPercent ? (value * 100).toFixed(2) : Number(value).toLocaleString()} {suffix}
-            </span>
-        </div>
-        <input
-            type="range"
-            name={name}
-            min={min}
-            max={max}
-            step={step}
-            value={value}
-            onChange={onChange}
-            style={{ marginBottom: '8px' }}
-        />
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <input
-                type="number"
+                type="range"
                 name={name}
-                value={value}
-                onChange={onChange}
-                step={step}
+                min={displayMin}
+                max={displayMax}
+                step={displayStep}
+                value={displayVal}
+                onChange={handleChange}
+                style={{ marginBottom: '8px' }}
             />
-            {suffix && <span style={{ color: 'var(--text-muted)' }}>{suffix}</span>}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <input
+                    type="number"
+                    name={name}
+                    value={displayVal}
+                    onChange={handleChange}
+                    step={displayStep}
+                />
+                {suffix && <span style={{ color: 'var(--text-muted)' }}>{suffix}</span>}
+            </div>
         </div>
-    </div>
-);
+    );
+};
 
 export default function SidebarInputs({ params, setParams }) {
     const handleChange = (e) => {
@@ -55,15 +71,13 @@ export default function SidebarInputs({ params, setParams }) {
                     onChange={handleChange}
                 />
                 <InputGroup
-                    icon={PoundSterling} label="Original Help to Buy Loan" name="originalHtbValue"
-                    value={params.originalHtbValue} min="20000" max="500000" step="1000" suffix="£"
-                    onChange={handleChange}
-                />
-                <InputGroup
-                    icon={Percent} label="Government's Share of Your Home" name="htbPercentage"
+                    icon={Percent} label="HTB Equity Loan (%)" name="htbPercentage"
                     value={params.htbPercentage} min="0.05" max="0.40" step="0.01" suffix="%" isPercent
                     onChange={handleChange}
                 />
+                <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '-14px', marginBottom: '20px' }}>
+                    = £{Math.round(params.initialPropertyValue * params.htbPercentage).toLocaleString()} HTB Equity Loan value at current property price
+                </div>
                 <InputGroup
                     icon={Percent} label="Current HTB Interest Rate" name="htbCurrentInterestRate"
                     value={params.htbCurrentInterestRate} min="0.000" max="0.05" step="0.0001" suffix="%" isPercent
@@ -85,7 +99,7 @@ export default function SidebarInputs({ params, setParams }) {
                 <h3 style={{ marginBottom: '16px', fontSize: '16px', color: 'var(--text-muted)' }}>Your Mortgage</h3>
                 <InputGroup
                     icon={PoundSterling} label="Current Mortgage Balance" name="currentMortgageBalance"
-                    value={params.currentMortgageBalance} min="1000" max="1000000" step="100" suffix="£"
+                    value={params.currentMortgageBalance} min="1000" max="1000000" step="100" suffix="£" integer
                     onChange={handleChange}
                 />
                 <InputGroup
@@ -94,14 +108,9 @@ export default function SidebarInputs({ params, setParams }) {
                     onChange={handleChange}
                 />
                 <div style={{ marginBottom: '20px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                        <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', fontWeight: 500 }}>
-                            <Calendar size={16} className="text-gradient" /> Remaining Mortgage Term
-                        </label>
-                        <span style={{ fontSize: '14px', color: 'var(--text-muted)' }}>
-                            {params.remainingTermYears} yrs {params.remainingTermExtraMonths} mo
-                        </span>
-                    </div>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                        <Calendar size={16} className="text-gradient" /> Remaining Mortgage Term
+                    </label>
                     <div style={{ display: 'flex', gap: '8px' }}>
                         <div style={{ flex: 1 }}>
                             <input
@@ -131,18 +140,55 @@ export default function SidebarInputs({ params, setParams }) {
 
             <div style={{ padding: '16px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', borderColor: 'var(--accent-primary)', borderWidth: '1px', borderStyle: 'solid' }}>
                 <h3 style={{ marginBottom: '16px', fontSize: '16px', color: 'var(--text-muted)' }}>Remortgage Details</h3>
+
+                {/* Remortgage Start Date — when the projection starts from */}
+                <div style={{ marginBottom: '20px' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                        <Calendar size={16} className="text-gradient" /> Remortgage Start Date
+                    </label>
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                        <select
+                            name="simulationMonth"
+                            value={params.simulationMonth}
+                            onChange={handleChange}
+                            style={{ flex: 1, background: 'rgba(0,0,0,0.2)', color: 'var(--text-main)', border: '1px solid var(--glass-border)', padding: '8px', borderRadius: '8px', outline: 'none' }}
+                        >
+                            <option value="1">Jan</option>
+                            <option value="2">Feb</option>
+                            <option value="3">Mar</option>
+                            <option value="4">Apr</option>
+                            <option value="5">May</option>
+                            <option value="6">Jun</option>
+                            <option value="7">Jul</option>
+                            <option value="8">Aug</option>
+                            <option value="9">Sep</option>
+                            <option value="10">Oct</option>
+                            <option value="11">Nov</option>
+                            <option value="12">Dec</option>
+                        </select>
+                        <select
+                            name="simulationYear"
+                            value={params.simulationYear}
+                            onChange={handleChange}
+                            style={{ flex: 1, background: 'rgba(0,0,0,0.2)', color: 'var(--text-main)', border: '1px solid var(--glass-border)', padding: '8px', borderRadius: '8px', outline: 'none' }}
+                        >
+                            {Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - 2 + i).map(year => (
+                                <option key={year} value={year}>{year}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+
                 <InputGroup
-                    icon={Percent} label="Expected Rate After Fix Ends" name="newMortgageRate"
+                    icon={Percent} label="Remortgage Interest Rate" name="newMortgageRate"
                     value={params.newMortgageRate} min="0.01" max="0.10" step="0.0001" suffix="%" isPercent
                     onChange={handleChange}
                 />
 
                 <div style={{ marginBottom: '20px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                        <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', fontWeight: 500 }}>
-                            <Calendar size={16} className="text-gradient" /> When Your Fixed Rate Ends
-                        </label>
-                    </div>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                        <Calendar size={16} className="text-gradient" /> When Your Fixed Rate Ends
+                    </label>
                     <div style={{ display: 'flex', gap: '8px' }}>
                         <select
                             name="remortgageMonth"
@@ -169,7 +215,7 @@ export default function SidebarInputs({ params, setParams }) {
                             onChange={handleChange}
                             style={{ flex: 1, background: 'rgba(0,0,0,0.2)', color: 'var(--text-main)', border: '1px solid var(--glass-border)', padding: '8px', borderRadius: '8px', outline: 'none' }}
                         >
-                            {Array.from({ length: 15 }, (_, i) => 2026 + i).map(year => (
+                            {Array.from({ length: 20 }, (_, i) => (params.simulationYear ?? new Date().getFullYear()) + i).map(year => (
                                 <option key={year} value={year}>{year}</option>
                             ))}
                         </select>

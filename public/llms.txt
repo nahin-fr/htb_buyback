@@ -1,0 +1,30 @@
+# BuyBack HTB
+
+> A deterministic financial simulator and projection tool for UK Help to Buy (HTB) equity loan repayment, interest modeling, and staircasing decisions.
+
+BuyBack HTB helps homeowners repay their Help to Buy equity loan with data‑driven confidence. Visualize yours wealth accumulation, model Help to Buy interest after year 5, and decide the optimal time to remortgage or sell to pay off the government's share.
+
+
+## Important Links
+
+- [Home](https://buybackhtb.com/): The main landing page explaining the tool's benefits and features.
+- [Calculator](https://buybackhtb.com/calculator): The interactive projection dashboard.
+
+## Technical Details
+
+The application is a React-based interactive tool. It simulates up to 40 years into the future, dynamically responding to inputs like property growth, remortgage rates, and escalating Help to Buy interest fees.
+
+
+### Key Calculations
+- **Asset Wealth Projection:** Visualizes property value growth versus the shrinking mortgage and growing HTB debt over the full repayment term.
+- **Monthly Outgoings:** A detailed breakdown showing the exact point where remortgage rates or Help to Buy interest fees (escalating from year 6) impact monthly outgoings.
+- **Repayment & Staircasing Engine:** Calculates the net savings or loss of pay-off scenarios (remortgage to repay vs. keeping the loan) at any point in the future. It determines the "Rate Crossover" point—the exact year when keeping the Help to Buy equity loan becomes mathematically more expensive than borrowing from the bank to clear it.
+
+
+## User Guidance
+To use the calculator effectively, users need:
+1. Current Property Value
+2. HTB Equity Loan Percentage (e.g., 20% or 40%)
+3. Current Mortgage Balance and Fixed Interest Rate
+4. Remaining Mortgage Term
+5. Estimated new remortgage rate

@@ -1,6 +1,6 @@
 # AI Agent Guidelines
 
-This document outlines the rules and technical context for AI agents (like Cursor, Copilot, or Antigravity) working within this Mortgage & HTB Forecaster repository.
+This document outlines the rules and technical context for AI agents (like Cursor, Copilot, or Antigravity) working within this BuyBack HTB repository.
 
 ## 1. Application Context
 *   **Purpose:** The tool is a deterministic financial simulator. It calculates the long-term wealth and cash flow implications of Help to Buy (HTB) staircasing decisions.

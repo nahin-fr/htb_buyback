@@ -219,7 +219,7 @@ export function calculateStaircasingOptions(params, numStaircases = 1, valuation
     const baseline = simulateWithStaircase(params, [], valuationFee);
 
     const step = numStaircases === 1 ? 12 : 6;
-    const maxMonth = Math.min(remainingTermMonths - 12, 240);
+    const maxMonth = remainingTermMonths - 12;
 
     let bestOption = null;
     const allOptions = [];
@@ -272,10 +272,11 @@ export function calculateStaircasingOptions(params, numStaircases = 1, valuation
         ? allOptions.sort((a, b) => a.months[0] - b.months[0])
         : [];
 
-    // Rate timeline: effective HTB rate vs mortgage rate over 25 years
+    // Rate timeline: effective HTB rate vs mortgage rate over the full remaining term
     const originalHtbValue = params.originalHtbValue ?? 186000;
+    const rateTimelineYears = Math.ceil(remainingTermMonths / 12);
     const rateTimeline = [];
-    for (let year = 0; year <= 25; year++) {
+    for (let year = 0; year <= rateTimelineYears; year++) {
         const propValueAtYear = initialPropertyValue * Math.pow(1 + propertyAnnualGrowth, year);
         const htbRateAtYear = htbCurrentInterestRate * Math.pow(1 + htbAnnualInterestGrowth, year);
         const buybackCostAtYear = propValueAtYear * htbPercentage;

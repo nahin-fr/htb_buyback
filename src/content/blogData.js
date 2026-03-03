@@ -1,8 +1,8 @@
-import { post1 } from './posts/interest-trap';
-import { post2 } from './posts/crossover-point';
-import { post3 } from './posts/redemption-guide';
-import { post4 } from './posts/staircasing';
-import { post5 } from './posts/selling-cladding';
+import { post1 } from './posts/interest-trap.js';
+import { post2 } from './posts/crossover-point.js';
+import { post3 } from './posts/redemption-guide.js';
+import { post4 } from './posts/staircasing.js';
+import { post5 } from './posts/selling-cladding.js';
 
 // Centralised array of all blog posts for easy rendering
 export const blogPosts = [

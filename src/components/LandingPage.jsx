@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Home, Percent, PoundSterling, TrendingUp, Info, ArrowRight, LineChart, Target, Coins, ChevronDown } from 'lucide-react';
 import '../animations.css';
 import { initAnimations } from '../animations';

@@ -16,6 +16,7 @@ This document outlines the rules and technical context for AI agents (like Curso
 ## 3. UI and Styling Rules
 *   Do not introduce standard CSS files unless necessary. The project currently relies heavily on inline styles using standard CSS properties (e.g., `style={{ display: 'flex' }}`) and some standard React patterns.
 *   Maintain the dark mode aesthetic (`#0f172a` backgrounds, standard vibrant colors for charts: green for savings, red for costs, purple for HTB).
+*   **Blog Posts:** When creating blog posts or editing `BlogPost.jsx`, DO NOT use Tailwind utility classes. Use strict inline styles and the pre-existing custom CSS classes (like `.prose-refined` and `.info-box` in `index.css`) to maintain the premium editorial layout. Refer to `.agents/workflows/create-blog-post.md`.
 
 ## 4. Interaction Protocol
 *   When debugging mathematical discrepancies, *always* start by logging the variables over time (e.g., month 1 vs month 13) within `simulateWithStaircase`.

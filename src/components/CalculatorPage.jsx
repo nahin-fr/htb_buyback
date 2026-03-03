@@ -96,7 +96,7 @@ function CalculatorPage() {
         {/* Header */}
         <header className="glass-panel fade-in" style={{ padding: '24px', flexShrink: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', color: 'inherit' }}>
-            <img src="/logo_dark.png" alt="BuyBack HTB Logo" style={{ height: '36px', borderRadius: '6px' }} />
+            <img src="/logo_dark.webp" alt="BuyBack HTB Logo" width="112" height="36" style={{ height: '36px', borderRadius: '6px' }} />
             <div>
               <h1 className="text-gradient" style={{ fontSize: '1.5rem', fontWeight: 800, margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
                 BuyBack HTB

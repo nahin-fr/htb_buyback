@@ -24,29 +24,39 @@ export default function LandingPage() {
             <header className="main-header">
                 <div style={{ maxWidth: '900px', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                        <img src="/logo_dark.png" alt="BuyBack HTB Logo" style={{ height: '32px', borderRadius: '4px' }} />
+                        <img src="/logo_dark.webp" alt="BuyBack HTB Logo" width="100" height="32" style={{ height: '32px', borderRadius: '4px' }} />
                         <span style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.02em', color: 'white' }}>
                             BuyBack <span className="text-gradient">HTB</span>
                         </span>
                     </div>
-                    <button
-                        onClick={() => navigate('/calculator')}
-                        style={{
-                            background: 'rgba(255,255,255,0.05)',
-                            border: '1px solid var(--glass-border)',
-                            color: 'white',
-                            padding: '8px 16px',
-                            borderRadius: '20px',
-                            fontSize: '0.9rem',
-                            fontWeight: 600,
-                            cursor: 'pointer',
-                            transition: 'all 0.2s'
-                        }}
-                        onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
-                        onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
-                    >
-                        Launch
-                    </button>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                        <span
+                            onClick={() => navigate('/blog')}
+                            style={{ color: 'var(--text-muted)', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.2s' }}
+                            onMouseOver={(e) => e.currentTarget.style.color = 'white'}
+                            onMouseOut={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
+                        >
+                            Blog
+                        </span>
+                        <button
+                            onClick={() => navigate('/calculator')}
+                            style={{
+                                background: 'rgba(255,255,255,0.05)',
+                                border: '1px solid var(--glass-border)',
+                                color: 'white',
+                                padding: '8px 16px',
+                                borderRadius: '20px',
+                                fontSize: '0.9rem',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                                transition: 'all 0.2s'
+                            }}
+                            onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+                            onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
+                        >
+                            Launch
+                        </button>
+                    </div>
                 </div>
             </header>
 
@@ -130,8 +140,10 @@ export default function LandingPage() {
 
                     <div style={{ marginTop: '48px', borderRadius: '24px', overflow: 'hidden', border: '1px solid var(--glass-border)', position: 'relative' }}>
                         <img
-                            src="/feature_abstract.png"
+                            src="/feature_abstract.webp"
                             alt="Abstract node network"
+                            width="800"
+                            height="300"
                             style={{ width: '100%', height: '300px', objectFit: 'cover', display: 'block' }}
                         />
                         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10, 15, 30, 0.9) 0%, rgba(10, 15, 30, 0.2) 100%)' }}></div>
@@ -262,7 +274,7 @@ export default function LandingPage() {
                     <div style={{ maxWidth: '900px', margin: '0 auto', width: '100%', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '32px' }}>
                         <div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-                                <img src="/logo_dark.png" alt="Logo" style={{ height: '28px', borderRadius: '4px' }} />
+                                <img src="/logo_dark.webp" alt="Logo" width="87" height="28" style={{ height: '28px', borderRadius: '4px' }} />
                                 <span style={{ fontSize: '1.2rem', fontWeight: 800, color: 'white' }}>BuyBack <span className="text-gradient">HTB</span></span>
                             </div>
                             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.5 }}>
@@ -287,6 +299,7 @@ export default function LandingPage() {
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                                 <span onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ color: 'var(--text-muted)', cursor: 'pointer', fontSize: '0.9rem' }}>Home</span>
                                 <span onClick={() => navigate('/calculator')} style={{ color: 'var(--text-muted)', cursor: 'pointer', fontSize: '0.9rem' }}>Calculator</span>
+                                <span onClick={() => navigate('/blog')} style={{ color: 'var(--text-muted)', cursor: 'pointer', fontSize: '0.9rem' }}>Blog</span>
                             </div>
                         </div>
                     </div>

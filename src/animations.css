@@ -39,24 +39,43 @@
 
 /* 2. CTA Pulse & Hover */
 .cta-button-animated {
+    position: relative;
+    /* transition: transform 0.2s var(--motion-ease-out), box-shadow 0.2s var(--motion-ease-out) !important; */
+    transition: transform 0.2s var(--motion-ease-out) !important;
+}
+
+.cta-button-animated::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 30px;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    z-index: -1;
     animation: ctaPulse 3s infinite var(--motion-ease-in-out);
-    transition: transform 0.2s var(--motion-ease-out), box-shadow 0.2s var(--motion-ease-out) !important;
+    opacity: 0.8;
 }
 
 .cta-button-animated:hover {
     transform: translateY(-3px) !important;
-    box-shadow: 0 12px 32px var(--accent-glow) !important;
+    /* box-shadow: 0 12px 32px var(--accent-glow) !important; */
+}
+
+.cta-button-animated:hover::before {
+    opacity: 1;
+    transform: scale(1.05);
 }
 
 @keyframes ctaPulse {
 
     0%,
     100% {
-        box-shadow: 0 8px 24px rgba(79, 172, 254, 0.4);
+        transform: scale(1);
+        opacity: 0.6;
     }
 
     50% {
-        box-shadow: 0 8px 32px rgba(79, 172, 254, 0.6);
+        transform: scale(1.08);
+        opacity: 0.4;
     }
 }
 
@@ -154,22 +173,32 @@
 
 /* 7. Footer Animated Gradient */
 .animated-footer-bg {
+    position: relative;
+    overflow: hidden;
+    background: #0f1117;
+}
+
+.animated-footer-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
     background: linear-gradient(270deg, #0f1117, #13273e, #0e1e28, #0f1117);
-    background-size: 600% 600%;
-    animation: footerGradient 8s ease infinite;
+    /* Instead of background-position, we animate a much larger element via transform */
+    width: 200%;
+    height: 200%;
+    left: -50%;
+    top: -50%;
+    animation: footerGradient 15s linear infinite;
 }
 
 @keyframes footerGradient {
     0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
+        transform: rotate(0deg);
     }
 
     100% {
-        background-position: 0% 50%;
+        transform: rotate(360deg);
     }
 }
 

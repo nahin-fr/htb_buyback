@@ -1,6 +1,6 @@
 export const post2 = {
     id: 2,
-    title: "The Crossover Point: Remortgaging vs. Keeping Your HTB Loan",
+    title: "Remortgage vs. Keeping Your Help to Buy Loan: How to Find Your Crossover Point",
     slug: "crossover-point-remortgage-vs-keep-htb",
     excerpt: "Discover the exact mathematical point where borrowing from a bank becomes cheaper than retaining your Help to Buy equity loan. Stop relying on subjective advice and start using deterministic math.",
     date: "February 12, 2026",
@@ -32,7 +32,7 @@ export const post2 = {
     <h2>The Impact of Loan-to-Value (LTV) on Remortgaging</h2>
     <p>There is a catch. When you roll the 20% equity loan into your main mortgage, your total borrowing increases. This changes your Loan-to-Value (LTV) ratio.</p>
 
-    <p>For example, if you have 10% equity, an 70% primary mortgage, and a 20% HTB loan, your bank currently views you as a 70% LTV borrower. They will offer you their best interest rates. If you absorb the HTB loan, you suddenly need a mortgage for 90% of the property's value. Your LTV spikes to 90%.</p>
+    <p>For example, if you have 10% equity, an 70% primary mortgage, and a 20% HTB loan, your bank currently views you as a 70% LTV borrower. They will offer you their best interest rates. If you absorb the HTB loan, you suddenly need a mortgage for 90% of the property's value. Your LTV spikes to 90%. </p>
 
     <p>Banks charge higher interest rates for higher LTV brackets because the lending is riskier. By absorbing the HTB loan, you might inadvertently push the interest rate up on your <em>entire</em> mortgage balance.</p>
 
@@ -61,5 +61,11 @@ export const post2 = {
     <p>We built the BuyBack HTB Calculator to do this deterministic math for you. By entering your current mortgage details, property value, and projected growth rates, the tool automatically calculates both your Effective HTB Rate and your Blended Remortgage Rate.</p>
 
     <p>The system will map these two trajectories over time and visually pinpoint your exact Crossover Point. Stop relying on subjective guesswork. Use data to find the optimal month to remortgage, pay off your equity loan, and secure your financial future.</p>
+
+    <div class="cta-box" style="margin-top: 32px; padding: 24px; background: rgba(79, 172, 254, 0.1); border: 1px solid var(--accent-primary); border-radius: 12px; text-align: center;">
+      <h3 style="margin-top: 0; margin-bottom: 12px; color: white;">Ready to find out exactly when to remortgage?</h3>
+      <p style="color: var(--text-muted); margin-bottom: 20px;">Use our data-driven calculator to project your Help to Buy costs and discover your personal Crossover Point.</p>
+      <a href="/calculator" style="display: inline-block; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Calculate My Break-Even Date Now</a>
+    </div>
   `
 };

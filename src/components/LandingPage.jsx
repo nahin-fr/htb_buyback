@@ -65,10 +65,10 @@ export default function LandingPage() {
 
                 <section style={{ textAlign: 'center', marginTop: '20px' }} className="hero-section">
                     <h1 className="text-gradient hero-headline" style={{ fontSize: '3.5rem', marginBottom: '16px', lineHeight: 1.1 }}>
-                        Repay your Help to Buy equity loan with data‑driven confidence.
+                        Help to Buy Remortgage Calculator: See When to Repay Your Equity Loan
                     </h1>
                     <p className="hero-subheadline" style={{ color: 'var(--text-muted)', fontSize: '1.25rem', maxWidth: '650px', margin: '0 auto', lineHeight: 1.6 }}>
-                        See exactly when to remortgage, sell, or buy back your equity loan — including rising Help to Buy interest after year 5.
+                        Don't let year 6 interest fees and rising property values eat your equity. Calculate your exact crossover point—the moment it becomes mathematically cheaper to remortgage and buy out the government.
                     </p>
 
 
@@ -92,7 +92,7 @@ export default function LandingPage() {
                             transition: 'all 0.2s'
                         }}
                     >
-                        Calculate my Help to Buy pay‑off date <ArrowRight size={20} />
+                        Calculate My Crossover Point <ArrowRight size={20} />
                     </button>
 
 
@@ -231,19 +231,19 @@ export default function LandingPage() {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                         {[
                             {
-                                q: "How do I repay my Help to Buy equity loan when I remortgage?",
+                                q: "How do I remortgage to repay my Help to Buy equity loan?",
                                 a: "When you remortgage to repay Help to Buy, you increase your main mortgage amount to cover the cost of the equity loan (repayment). You will need a RICS valuation and a redemption statement from the scheme administrator. Our calculator models this exact scenario to show how your monthly payments change after pay‑off."
                             },
                             {
-                                q: "How much will my Help to Buy interest be after year 5?",
+                                q: "What happens to my Help to Buy loan after 5 years?",
                                 a: "For the first 5 years, the equity loan is interest‑free. From year 6, you start paying a monthly interest fee (usually starting at 1.75%) which increases every year by CPI + 2%. This means your interest costs can escalate significantly over time, which is why modeling your repayment early is critical."
                             },
                             {
-                                q: "Can I pay off my Help to Buy loan early?",
+                                q: "Is it worth paying off Help to Buy early?",
                                 a: "Yes, you can pay off the Help to Buy loan at any time. You can either repay it in full or in 10% blocks (staircasing). Paying off the loan early can save you thousands in future interest fees and ensures you keep 100% of your home's future capital growth."
                             },
                             {
-                                q: "What happens to my Help to Buy equity loan when I sell my house?",
+                                q: "What happens to the Help to Buy loan when I sell my house?",
                                 a: "When you sell a home with an active Help to Buy equity loan, you must repay the government's share (e.g., 20% of the sale price) at the point of completion. Our tool helps you model your expected sale proceeds after the loan is repaid, factoring in property growth."
                             }
                         ].map((item, idx) => (

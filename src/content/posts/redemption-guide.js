@@ -1,6 +1,6 @@
 export const post3 = {
   id: 3,
-  title: "The Ultimate Step-by-Step Guide to Help to Buy Redemption",
+  title: "Step-by-Step Guide: How to Repay Your Help to Buy Equity Loan",
   slug: "help-to-buy-redemption-step-by-step-guide",
   excerpt: "HTB redemption is notorious for administrative friction. This highly practical, operational blueprint acts as a stress-reducing roadmap, addressing common pitfalls like expiring valuations.",
   date: "February 19, 2026",
@@ -56,5 +56,11 @@ export const post3 = {
     </div>
 
     <p>By understanding the strict sequence, instructing a proactive solicitor, and keeping a hawkeye on the 3-month RICS deadline, you can strip the stress out of your Help to Buy redemption and move to full homeownership smoothly.</p>
+
+    <div class="cta-box" style="margin-top: 32px; padding: 24px; background: rgba(79, 172, 254, 0.1); border: 1px solid var(--accent-primary); border-radius: 12px; text-align: center;">
+      <h3 style="margin-top: 0; margin-bottom: 12px; color: white;">Ready to find out exactly when to remortgage?</h3>
+      <p style="color: var(--text-muted); margin-bottom: 20px;">Use our data-driven calculator to project your Help to Buy costs and discover your personal Crossover Point.</p>
+      <a href="/calculator" style="display: inline-block; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Calculate My Break-Even Date Now</a>
+    </div>
   `
 };

@@ -1,6 +1,6 @@
 export const post1 = {
   id: 1,
-  title: "The Help to Buy Interest Trap: Calculating the True Cost of Year 6",
+  title: "What Happens to Help to Buy After 5 Years? The Year 6 Interest Trap Explained",
   slug: "help-to-buy-interest-trap-year-6",
   excerpt: "A data-driven wake-up call for homeowners approaching their 5-year anniversary. Demystifying the complex math of HTB interest escalation and the shadow cost of property appreciation.",
   date: "February 5, 2026",
@@ -91,6 +91,12 @@ export const post1 = {
 
     <p>That is why we built the BuyBack HTB Calculator. By inputting a few simple details, our algorithm projects your exact costs over the next 30 years. It models the escalating HTB interest alongside your property's appreciation to show you precisely how much wealth you are losing to the shadow cost, and exactly how much you could save by remortgaging today.</p>
 
-    <p>Don't wait until the Year 6 interest fees start hitting your bank account. Run your numbers today and take control of your financial future.</p>
+    <p>Don't wait until the Year 6 interest fees start hitting your bank account.</p>
+
+    <div class="cta-box" style="margin-top: 32px; padding: 24px; background: rgba(79, 172, 254, 0.1); border: 1px solid var(--accent-primary); border-radius: 12px; text-align: center;">
+      <h3 style="margin-top: 0; margin-bottom: 12px; color: white;">Ready to find out exactly when to remortgage?</h3>
+      <p style="color: var(--text-muted); margin-bottom: 20px;">Use our data-driven calculator to project your Help to Buy costs and discover your personal Crossover Point.</p>
+      <a href="/calculator" style="display: inline-block; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Calculate My Break-Even Date Now</a>
+    </div>
   `
 };

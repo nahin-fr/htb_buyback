@@ -1,6 +1,6 @@
 export const post4 = {
   id: 4,
-  title: "Help to Buy Staircasing: Should You Make Part-Repayments?",
+  title: "Help to Buy Staircasing: Is Paying Off 10% Worth It?",
   slug: "help-to-buy-staircasing-part-repayments",
   excerpt: "Want to chip away at your equity loan but can't afford a full buyout? We explore the true financial efficiency—and hidden costs—of making Help to Buy part-repayments.",
   date: "February 26, 2026",
@@ -64,5 +64,11 @@ export const post4 = {
     </ol>
 
     <p>Before proceeding, use the BuyBack HTB Calculator. Model a partial repayment vs. keeping the full loan to see exactly how much interest and equity you save—and whether it justifies the £1,000 upfront hit in administrative fees.</p>
+
+    <div class="cta-box" style="margin-top: 32px; padding: 24px; background: rgba(79, 172, 254, 0.1); border: 1px solid var(--accent-primary); border-radius: 12px; text-align: center;">
+      <h3 style="margin-top: 0; margin-bottom: 12px; color: white;">Ready to find out exactly when to remortgage?</h3>
+      <p style="color: var(--text-muted); margin-bottom: 20px;">Use our data-driven calculator to project your Help to Buy costs and discover your personal Crossover Point.</p>
+      <a href="/calculator" style="display: inline-block; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Calculate My Break-Even Date Now</a>
+    </div>
   `
 };

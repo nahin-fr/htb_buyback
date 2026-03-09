@@ -3,11 +3,18 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Home, Percent, PoundSterling, TrendingUp, Info, ArrowRight, LineChart, Target, Coins, ChevronDown } from 'lucide-react';
 import '../animations.css';
 import { initAnimations } from '../animations';
+import { useSEO } from '../hooks/useSEO';
 
 
 export default function LandingPage() {
     const navigate = useNavigate();
     const [openFaq, setOpenFaq] = React.useState(null);
+
+    useSEO({
+        title: 'Help to Buy Remortgage Calculator | BuyBack HTB',
+        description: 'Calculate when to remortgage or buy back your Help to Buy equity loan. See your interest after 5 years and compare repayment options with our free tool.',
+        path: '/',
+    });
 
     React.useEffect(() => {
         const cleanup = initAnimations();

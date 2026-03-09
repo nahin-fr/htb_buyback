@@ -2,10 +2,17 @@ import React, { useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { blogPosts } from '../content/blogData';
 import { Calendar, User, ChevronLeft, Share2, Clock, ArrowRight } from 'lucide-react';
+import { useSEO } from '../hooks/useSEO';
 
 const BlogPost = () => {
     const { slug } = useParams();
     const post = blogPosts.find((p) => p.slug === slug);
+
+    useSEO(post ? {
+        title: `${post.title} | BuyBack HTB`,
+        description: post.excerpt,
+        path: `/blog/${post.slug}`,
+    } : {});
 
     useEffect(() => {
         window.scrollTo(0, 0);

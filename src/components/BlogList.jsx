@@ -2,8 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { blogPosts } from '../content/blogData';
 import { Calendar, User, ArrowRight } from 'lucide-react';
+import { useSEO } from '../hooks/useSEO';
 
 const BlogList = () => {
+    useSEO({
+        title: 'Help to Buy Guides & Mortgage Insights | BuyBack HTB',
+        description: 'Expert guides on Help to Buy staircasing, redemption, RICS valuations, and remortgage strategies for UK homeowners.',
+        path: '/blog',
+    });
+
     return (
         <div className="blog-list-container section-padding">
             <div className="container">

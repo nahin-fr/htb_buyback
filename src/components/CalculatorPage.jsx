@@ -6,9 +6,16 @@ import SidebarInputs from './SidebarInputs';
 import ResultsDashboard from './ResultsDashboard';
 import { generateProjection, calculateStaircasingOptions } from '../utils/finance';
 import { fetchLatestCpi, fetchLatestBoEBaseRate } from '../utils/rates';
+import { useSEO } from '../hooks/useSEO';
 
 
 function CalculatorPage() {
+  useSEO({
+    title: 'HTB Equity Loan Repayment Calculator | BuyBack HTB',
+    description: 'Use our free calculator to model your Help to Buy equity loan costs, compare remortgage scenarios, and pinpoint your exact crossover point.',
+    path: '/calculator',
+  });
+
   const [isGenerating, setIsGenerating] = useState(false);
   const [params, setParams] = useState({
     simulationMonth: new Date().getMonth() + 1, // current month (1-12)

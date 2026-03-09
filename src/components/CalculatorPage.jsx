@@ -214,7 +214,7 @@ function CalculatorPage() {
               <img
                 height="36"
                 style={{ border: '0', height: '36px' }}
-                src="https://storage.ko-fi.com/cdn/kofi2.png?v=3"
+                src="/kofi2.png"
                 alt="Buy Me a Coffee at ko-fi.com"
               />
             </a>

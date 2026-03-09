@@ -4,11 +4,14 @@
  * Post-build script that takes the generated dist/index.html and creates
  * route-specific copies with correct SEO metadata injected into them.
  *
- * This works because nginx.conf uses `try_files $uri $uri/ /index.html`,
- * so a file at dist/blog/crossover-point/index.html will be served directly
- * by nginx when Googlebot requests /blog/crossover-point.
- *
- * Usage: run automatically via `npm run build` (see package.json postbuild script)
+ * Also fixes LCP/FCP performance issues by:
+ *  1. Moving the JS <script> bundle from <head> to end of <body> so it
+ *     doesn't block HTML parsing / first paint.
+ *  2. Adding <link rel="preload" as="image"> for the route's hero image
+ *     so the browser starts fetching it before parsing the body.
+ *  3. For blog post routes, injecting the article H1 + banner image
+ *     directly into the static HTML body, so the LCP element paints
+ *     immediately without waiting for React to hydrate.
  */
 
 import fs from 'fs';
@@ -47,37 +50,74 @@ const STATIC_ROUTES = [
 ];
 
 /**
- * Inject route-specific SEO tags into an HTML string by replacing
- * the placeholder tags that exist in the root index.html.
+ * Move the <script type="module"> tag from <head> to end of <body>.
+ * Vite injects the entry script into <head> which blocks first paint.
+ * Moving it to the end of <body> means HTML/CSS renders first.
+ */
+function moveScriptToBody(html) {
+    const scriptMatch = html.match(/<script type="module" crossorigin src="[^"]+"><\/script>/);
+    if (!scriptMatch) return html;
+    const scriptTag = scriptMatch[0];
+    html = html.replace(scriptTag, '');
+    html = html.replace('</body>', `  ${scriptTag}\n</body>`);
+    return html;
+}
+
+/**
+ * Add a <link rel="preload" as="image"> for the route's hero image.
+ */
+function addImagePreload(html, imageUrl) {
+    const imagePath = imageUrl.startsWith(BASE_URL)
+        ? imageUrl.slice(BASE_URL.length)
+        : imageUrl;
+    const preloadTag = `<link rel="preload" href="${imagePath}" as="image" fetchpriority="high">`;
+    html = html.replace(
+        '<link rel="preload" href="/logo_dark.webp" as="image" fetchpriority="high">',
+        `<link rel="preload" href="/logo_dark.webp" as="image" fetchpriority="high">\n  ${preloadTag}`
+    );
+    return html;
+}
+
+/**
+ * For blog post pages, replace the generic app shell content with the real
+ * post H1 and banner image. This makes the LCP element present immediately
+ * in the static HTML — no React needed for first paint.
+ */
+function injectBlogShell(html, post) {
+    const blogShell = `<div style="padding-top:100px;padding-bottom:48px;font-family:'Inter',sans-serif;max-width:900px;margin:0 auto;padding-left:24px;padding-right:24px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:32px;">
+          <img src="/logo_dark.webp" alt="BuyBack HTB" style="height:32px;width:32px;border-radius:4px;object-fit:contain;" />
+          <span style="font-size:1.25rem;font-weight:700;color:white;">BuyBack HTB</span>
+        </div>
+        <h1 style="font-size:clamp(2rem,5vw,3.5rem);line-height:1.15;margin-bottom:24px;font-weight:800;color:white;letter-spacing:-0.02em;">${post.title}</h1>
+        <img src="${post.image}" alt="${post.title}" width="900" height="500" fetchpriority="high"
+          style="width:100%;height:auto;border-radius:16px;display:block;margin-bottom:32px;" />
+      </div>`;
+
+    // Replace the inner app shell content (everything inside #root's wrapper div)
+    html = html.replace(
+        /(<div id="root">)\s*<!-- Rich App Shell -->[\s\S]*?(<\/div>\s*<\/div>)\s*(<\/div>)\s*(<script)/,
+        `$1\n    ${blogShell}\n  $3\n  $4`
+    );
+
+    return html;
+}
+
+/**
+ * Inject route-specific SEO tags into an HTML string.
  */
 function injectMeta(html, { path: routePath, title, description, image }) {
     const canonicalUrl = `${BASE_URL}${routePath}`;
 
-    // Replace <title>
-    html = html.replace(
-        /<title>[^<]*<\/title>/,
-        `<title>${title}</title>`
-    );
+    html = html.replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`);
+    html = html.replace(/<meta name="description"[^>]*>/, `<meta name="description" content="${description}" />`);
+    html = html.replace(/<link rel="canonical"[^>]*>/, `<link rel="canonical" href="${canonicalUrl}" />`);
 
-    // Replace <meta name="description">
-    html = html.replace(
-        /<meta name="description"[^>]*>/,
-        `<meta name="description" content="${description}" />`
-    );
-
-    // Replace canonical
-    html = html.replace(
-        /<link rel="canonical"[^>]*>/,
-        `<link rel="canonical" href="${canonicalUrl}" />`
-    );
-
-    // Replace OG tags
     html = html.replace(/<meta property="og:url"[^>]*>/, `<meta property="og:url" content="${canonicalUrl}" />`);
     html = html.replace(/<meta property="og:title"[^>]*>/, `<meta property="og:title" content="${title}" />`);
     html = html.replace(/<meta property="og:description"[^>]*>/, `<meta property="og:description" content="${description}" />`);
     html = html.replace(/<meta property="og:image"[^>]*>/, `<meta property="og:image" content="${image}" />`);
 
-    // Replace Twitter tags
     html = html.replace(/<meta name="twitter:url"[^>]*>/, `<meta name="twitter:url" content="${canonicalUrl}" />`);
     html = html.replace(/<meta name="twitter:title"[^>]*>/, `<meta name="twitter:title" content="${title}" />`);
     html = html.replace(/<meta name="twitter:description"[^>]*>/, `<meta name="twitter:description" content="${description}" />`);
@@ -103,19 +143,24 @@ function run() {
         process.exit(1);
     }
 
-    const template = fs.readFileSync(templatePath, 'utf-8');
+    // Apply global performance fix (script to body) on the template once
+    let template = fs.readFileSync(templatePath, 'utf-8');
+    template = moveScriptToBody(template);
+
     let count = 0;
 
-    // 1. Inject into root index.html (homepage)
+    // 1. Homepage
     const homeRoute = STATIC_ROUTES.find(r => r.path === '/');
-    const homeHtml = injectMeta(template, homeRoute);
+    let homeHtml = injectMeta(template, homeRoute);
+    homeHtml = addImagePreload(homeHtml, homeRoute.image);
     fs.writeFileSync(templatePath, homeHtml, 'utf-8');
     console.log(`✅  / → dist/index.html`);
     count++;
 
     // 2. Static routes (calculator, blog listing)
     for (const route of STATIC_ROUTES.filter(r => r.path !== '/')) {
-        const html = injectMeta(template, route);
+        let html = injectMeta(template, route);
+        html = addImagePreload(html, route.image);
         const outputPath = path.join(DIST_DIR, route.path, 'index.html');
         writeHtml(outputPath, html);
         console.log(`✅  ${route.path} → dist${route.path}/index.html`);
@@ -134,14 +179,17 @@ function run() {
             image: imageUrl,
         };
 
-        const html = injectMeta(template, route);
+        let html = injectMeta(template, route);
+        html = addImagePreload(html, imageUrl);
+        html = injectBlogShell(html, post);
+
         const outputPath = path.join(DIST_DIR, 'blog', post.slug, 'index.html');
         writeHtml(outputPath, html);
         console.log(`✅  ${routePath} → dist/blog/${post.slug}/index.html`);
         count++;
     }
 
-    console.log(`\n🎉 Pre-rendering complete: ${count} pages generated with unique SEO tags.`);
+    console.log(`\n🎉 Pre-rendering complete: ${count} pages generated with unique SEO tags and LCP optimisations.`);
 }
 
 run();

@@ -26,6 +26,11 @@ dist-ssr
 *.dll
 *.dylib
 
+# AI / agent files (local only)
+AGENTS.md
+CLAUDE.md
+todo.md
+
 # env files
 .env
 .env.local

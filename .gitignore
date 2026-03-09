@@ -30,6 +30,8 @@ dist-ssr
 AGENTS.md
 CLAUDE.md
 todo.md
+.agent/
+.agents/
 
 # env files
 .env

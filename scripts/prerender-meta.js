@@ -79,20 +79,89 @@ function addImagePreload(html, imageUrl) {
 }
 
 /**
+ * Convert a human-readable date like "February 5, 2026" to ISO 8601 "2026-02-05".
+ */
+function toIsoDate(dateStr) {
+    const d = new Date(dateStr);
+    if (isNaN(d)) return dateStr;
+    return d.toISOString().split('T')[0];
+}
+
+/**
+ * Inject a JSON-LD BlogPosting schema into the <head> of the page.
+ * This helps Google understand the page type, author, and publish date,
+ * which is a strong indexing signal for article content.
+ */
+function injectBlogSchema(html, post, canonicalUrl, imageUrl) {
+    const schema = {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: post.title,
+        description: post.excerpt,
+        image: imageUrl,
+        url: canonicalUrl,
+        datePublished: toIsoDate(post.date),
+        dateModified: toIsoDate(post.date),
+        author: {
+            '@type': 'Person',
+            name: post.author,
+        },
+        publisher: {
+            '@type': 'Organization',
+            name: 'BuyBack HTB',
+            url: BASE_URL,
+            logo: {
+                '@type': 'ImageObject',
+                url: `${BASE_URL}/logo_dark.webp`,
+            },
+        },
+        mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': canonicalUrl,
+        },
+    };
+
+    const schemaTag = `<script type="application/ld+json">\n${JSON.stringify(schema, null, 2)}\n</script>`;
+    return html.replace('</head>', `  ${schemaTag}\n</head>`);
+}
+
+/**
  * For blog post pages, replace the generic app shell content with the real
- * post H1 and banner image. This makes the LCP element present immediately
- * in the static HTML — no React needed for first paint.
+ * post content — H1, banner image, AND the full article body. This ensures
+ * Googlebot sees all text in the initial HTML without needing to execute JS.
  */
 function injectBlogShell(html, post) {
-    const blogShell = `<div style="padding-top:100px;padding-bottom:48px;font-family:'Inter',sans-serif;max-width:900px;margin:0 auto;padding-left:24px;padding-right:24px;">
+    const blogContentStyles = `
+  <style>
+    .blog-body { color: #cbd5e1; font-size: 1.0625rem; line-height: 1.8; }
+    .blog-body h2 { font-size: 1.625rem; font-weight: 700; color: #f1f5f9; margin: 2.5rem 0 1rem; line-height: 1.3; }
+    .blog-body h3 { font-size: 1.25rem; font-weight: 600; color: #e2e8f0; margin: 2rem 0 0.75rem; }
+    .blog-body p { margin: 0 0 1.25rem; }
+    .blog-body ul, .blog-body ol { margin: 0 0 1.25rem 1.5rem; }
+    .blog-body li { margin-bottom: 0.5rem; }
+    .blog-body strong { color: #f1f5f9; font-weight: 600; }
+    .blog-body a { color: #60a5fa; text-decoration: underline; }
+    .blog-body .info-box { background: rgba(96,165,250,0.08); border: 1px solid rgba(96,165,250,0.25); border-radius: 12px; padding: 1.25rem 1.5rem; margin: 1.75rem 0; }
+    .blog-body .info-box h4 { color: #93c5fd; font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 0.5rem; }
+    .blog-body .info-box p { margin: 0; color: #bfdbfe; }
+    .blog-body table { width: 100%; border-collapse: collapse; margin: 1.75rem 0; font-size: 0.9375rem; }
+    .blog-body th { background: rgba(255,255,255,0.06); color: #e2e8f0; font-weight: 600; padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .blog-body td { padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  </style>`;
+
+    const blogShell = `<div style="padding-top:100px;padding-bottom:64px;font-family:'Inter',sans-serif;max-width:900px;margin:0 auto;padding-left:24px;padding-right:24px;">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:32px;">
           <img src="/logo_dark.webp" alt="BuyBack HTB" style="height:32px;width:32px;border-radius:4px;object-fit:contain;" />
           <span style="font-size:1.25rem;font-weight:700;color:white;">BuyBack HTB</span>
         </div>
         <h1 style="font-size:clamp(2rem,5vw,3.5rem);line-height:1.15;margin-bottom:24px;font-weight:800;color:white;letter-spacing:-0.02em;">${post.title}</h1>
         <img src="${post.image}" alt="${post.title}" width="900" height="500" fetchpriority="high"
-          style="width:100%;height:auto;border-radius:16px;display:block;margin-bottom:32px;" />
+          style="width:100%;height:auto;border-radius:16px;display:block;margin-bottom:40px;" />
+        <div class="blog-body">${post.content}</div>
       </div>`;
+
+    // Inject blog content CSS into <head>
+    html = html.replace('</head>', `${blogContentStyles}\n</head>`);
 
     // Replace the inner app shell content (everything inside #root's wrapper div)
     html = html.replace(
@@ -180,7 +249,9 @@ function run() {
         };
 
         let html = injectMeta(template, route);
+        html = html.replace(/<meta property="og:type"[^>]*>/, `<meta property="og:type" content="article" />`);
         html = addImagePreload(html, imageUrl);
+        html = injectBlogSchema(html, post, `${BASE_URL}${routePath}`, imageUrl);
         html = injectBlogShell(html, post);
 
         const outputPath = path.join(DIST_DIR, 'blog', post.slug, 'index.html');

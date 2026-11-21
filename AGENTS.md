@@ -21,3 +21,5 @@ This document outlines the rules and technical context for AI agents (like Curso
 ## 4. Interaction Protocol
 *   When debugging mathematical discrepancies, *always* start by logging the variables over time (e.g., month 1 vs month 13) within `simulateWithStaircase`.
 *   When adding new features to the dashboard, ensure they are responsive and fit within the existing grid/flexbox layout. Use `InfoTip` components heavily to explain financial terminology to the user.
+
+- Project skill: `.agents/skills/htb-mortgage-specialist` (linked at `.claude/skills/`) holds the HTB staircasing domain rules and debugging tips.

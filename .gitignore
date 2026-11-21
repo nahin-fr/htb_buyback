@@ -31,7 +31,8 @@ AGENTS.md
 CLAUDE.md
 todo.md
 .agent/
-.agents/
+.agents/*
+!.agents/skills/
 
 # env files
 .env

@@ -55,3 +55,5 @@ There are no tests in this project.
 - Styling is inline (`style={{ ... }}`) plus CSS variables in `src/index.css`. No external CSS files.
 - Use `InfoTip` components to explain financial terminology in new UI sections.
 - ESLint rule: uppercase-starting variable names are exempt from `no-unused-vars`.
+
+- Project skill: `.agents/skills/htb-mortgage-specialist` (linked at `.claude/skills/`) holds the HTB staircasing domain rules and debugging tips.
